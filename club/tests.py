@@ -20,12 +20,15 @@ class MeetingTest(TestCase):
 
 class MinutesTest(TestCase):
     def setUp(self):
-        meet=Meeting(meetingTitle='Python Club Meeting')
-        self.meetingID=MeetingMinutes(meetingID=meet)
+        #self.meet=Meeting(meetingTitle='Python Club Meeting')
+        self.minute=MeetingMinutes(meetingID=Meeting(meetingTitle='Python Club Meeting'))
+        #self.meetingID=MeetingMinutes(meetingID=self.meet)
     
     #This FAILS, and I don't know how to find the right foreign key value to make it PASS.
     def test_ID(self):
-        self.assertEqual(str(models.ForeignKey(self.meetingID, on_delete=models.CASCADE)), '1')
+        #meet=Meeting(meetingTitle='Python Club Meeting')
+        #minute=MeetingMinutes(meetingID=meet)
+        self.assertEqual(str(self.minute), '0')
 
     def test_tablename(self):
         self.assertEqual(str(MeetingMinutes._meta.db_table), 'minutes')
@@ -59,7 +62,7 @@ class IndexTest(TestCase):
     def test_view_uses_correct_template(self):
         response = self.client.get(reverse('index'))
         self.assertEqual(response.status_code,200)
-        self.assertTemplateUsed(response, 'club/index.html')
+        self.assertTemplateUsed('club/index.html')
 
 class GetMeetingTest(TestCase):
     def test_view_url_accessible_by_name(self):
@@ -69,11 +72,11 @@ class GetMeetingTest(TestCase):
     def test_view_uses_correct_template(self):
         response = self.client.get(reverse('meetings'))
         self.assertEqual(response.status_code,200)
-        self.assertTemplateUsed(response, 'club/meetings.html')
+        self.assertTemplateUsed('club/meetings.html')
 
-    #def test_view_url_exists_at_desired_location(self):
-        #response = self.client.get(reverse('/club/meetings'))
-        #self.assertEqual(response.status_code,200)
+    def test_view_url_exists_at_desired_location(self):
+        response = self.client.get(reverse('/club/meetings'))
+        self.assertEqual(response.status_code,200)
 
 class GetResourcesTest(TestCase):
     def test_view_url_accessible_by_name(self):
@@ -83,11 +86,11 @@ class GetResourcesTest(TestCase):
     def test_view_uses_correct_template(self):
         response = self.client.get(reverse('resources'))
         self.assertEqual(response.status_code,200)
-        self.assertTemplateUsed(response, 'club/resources.html')
+        self.assertTemplateUsed('club/resources.html')
 
-    #def test_view_url_exists_at_desired_location(self):
-        #response = self.client.get(reverse('/club/resources'))
-        #self.assertEqual(response.status_code,200)
+    def test_view_url_exists_at_desired_location(self):
+        response = self.client.get(reverse('/club/resources'))
+        self.assertEqual(response.status_code,200)
 
 #This does not work and I don't know why. 
 class GetMeetingDetailsTest(TestCase):
@@ -98,7 +101,7 @@ class GetMeetingDetailsTest(TestCase):
     def test_view_uses_correct_template(self):
         response = self.client.get(reverse('meetingdetails'))
         self.assertEqual(response.status_code,200)
-        self.assertTemplateUsed(response, 'club/meetingdetails.html')
+        self.assertTemplateUsed('club/meetingdetails.html')
 
     #def test_view_url_exists_at_desired_location(self):
         #response = self.client.get(reverse('/club/meetingdetails'))
