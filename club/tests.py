@@ -4,6 +4,7 @@ from .models import Meeting, MeetingMinutes, Resource, Event
 from datetime import datetime
 from django.urls import reverse
 from django.contrib.auth.models import User 
+from .forms import MeetingForm
 
 # Create your tests here.
 
@@ -106,3 +107,23 @@ class GetMeetingDetailsTest(TestCase):
     #def test_view_url_exists_at_desired_location(self):
         #response = self.client.get(reverse('/club/meetingdetails'))
         #self.assertEqual(response.status_code,200)
+
+#test forms
+class NewMeetingFormn(TestCase):
+    #valid form data
+    def test_meetingform(self):
+        data={
+        'meetingTitle':'meeting',
+        'meetingDate':'2021-03-03',
+        'meetingTime':'19:00',
+        'meetingLocation':'A place',
+        'meetingAgenda':'do things'
+        }
+        form=MeetingForm(data)
+        self.assertTrue(form.is_valid)
+
+    #Test is failing, per the video 
+    def test_meetingForm_Invalid(self):
+        data={'meetingTitle':""}
+        form=MeetingForm(data)
+        self.assertFalse(form.is_valid)
