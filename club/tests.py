@@ -4,7 +4,7 @@ from .models import Meeting, MeetingMinutes, Resource, Event
 from datetime import datetime
 from django.urls import reverse
 from django.contrib.auth.models import User 
-from .forms import MeetingForm
+from .forms import MeetingForm, ResourceForm
 
 # Create your tests here.
 
@@ -109,7 +109,7 @@ class GetMeetingDetailsTest(TestCase):
         #self.assertEqual(response.status_code,200)
 
 #test forms
-class NewMeetingFormn(TestCase):
+class NewMeetingForm(TestCase):
     #valid form data
     def test_meetingform(self):
         data={
@@ -126,4 +126,24 @@ class NewMeetingFormn(TestCase):
     def test_meetingForm_Invalid(self):
         data={'meetingTitle':""}
         form=MeetingForm(data)
+        self.assertFalse(form.is_valid)
+
+class NewResourceForm(TestCase):
+    #valid form data
+    def test_resourceform(self):
+        data={
+        'resourceName':'resource',
+        'resourceType':'helpful',
+        'resourceURL':'http://www.twitter.com',
+        'dateEntered':'2021-03-03',
+        'userID':'stephen',
+        'resourceDescription':'a resource'
+        }
+        form=ResourceForm(data)
+        self.assertTrue(form.is_valid)
+
+    #Test is failing, per the video 
+    def test_resourceForm_Invalid(self):
+        data={'resourceName':""}
+        form=ResourceForm(data)
         self.assertFalse(form.is_valid)
